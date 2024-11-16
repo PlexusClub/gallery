@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Gallery</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      body {
+        margin: 1rem;
+        background-color: #010511;
+        color: #fff;
+      }
+      .section {
+        margin-bottom: 2rem;
+      }
+      .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      .section-desc {
+        margin-bottom: 1rem;
+        font-size: 1rem;
+        color: #ddd;
+      }
+      .list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      img {
+        width: 400px;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 0.7rem;
+        display: none;
+        cursor: pointer;
+        transition: transform 0.3s;
+      }
+      .overlay {
+        transform: scale(1.1);
+      }
+      img:hover {
+        transform: scale(1.1);
+      }
+      .overlay {
+        padding: 20px;
+        /* padding-top: 50px; */
+        display: none;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        backdrop-filter: blur(5px);
+        -webkit-mask: -webkit-gradient(
+          linear,
+          left 5%,
+          left 20%,
+          from(rgba(0, 0, 0, 0)),
+          to(rgba(0, 0, 0, 1))
+        );
+        color: #fff;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0.7rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="gallery"></div>
+
+    <script>
+      $(document).ready(function () {
+        var events = [
+          {
+            event: "Code Marathon",
+            desc: "A thrilling coding competition.",
+            images: [
+              {
+                url: "./assets/codemarathon/IMG-20240923-WA0013.jpg",
+                deSC: "",
+              },
+              {
+                url: "./assets/codemarathon/IMG-20240923-WA0015.jpg",
+                deSC: "",
+              },
+              {
+                url: "./assets/codemarathon/IMG-20240923-WA0023.jpg",
+                deSC: "",
+              },
+              {
+                url: "./assets/codemarathon/IMG-20240923-WA0043.jpg",
+                deSC: "",
+              },
+              {
+                url: "./assets/codemarathon/IMG-20240923-WA0093.jpg",
+                deSC: "",
+              },
+              {
+                url: "./assets/codemarathon/IMG-20240923-WA0095.jpg",
+                deSC: "",
+              },
+              {
+                url: "./assets/codemarathon/IMG-20240923-WA0159.jpg",
+                deSC: "",
+              }
+            ]
+          },
+          {
+            event: "Tech Fusion",
+            desc: "Innovative tech presentations.",
+            images: [
+              {
+                url: "https://images.pexels.com/photos/3022413/pexels-photo-3022413.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                desc: "Virtual reality demo.",
+              },
+              {
+                url: "https://images.pexels.com/photos/10768839/pexels-photo-10768839.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                desc: "AI-powered robotics showcase.",
+              },
+            ]
+          }
+        ];
+
+        var delay = 0;
+
+        events.forEach(function (eventItem) {
+          var section = $("<div>").addClass("section");
+          var title = $("<div>").addClass("section-title").text(eventItem.event);
+          var description = $("<div>")
+            .addClass("section-desc")
+            .text(eventItem.desc);
+          var list = $("<div>").addClass("list");
+
+          section.append(title).append(description).append(list);
+          $("#gallery").append(section);
+
+          eventItem.images.forEach(function (image) {
+            var imgWrapper = $("<div>").css("position", "relative");
+            var img = $("<img>").attr("src", image.url);
+            var overlay = $("<div>").addClass("overlay").text(image.desc);
+
+            imgWrapper.append(img).append(overlay);
+            list.append(imgWrapper);
+
+            img.on("load", function () {
+              setTimeout(() => {
+                $(this).fadeIn(1000);
+              }, delay);
+              delay += 1000;
+            });
+
+            imgWrapper.hover(
+              function () {
+                overlay.fadeIn();
+              },
+              function () {
+                overlay.fadeOut();
+              }
+            );
+
+            imgWrapper.on("click", function () {
+              overlay.fadeToggle();
+            });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
